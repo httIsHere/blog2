@@ -1,0 +1,8 @@
+.content-head{
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+.content-head .form-control{
+	width: 80%;
+}
