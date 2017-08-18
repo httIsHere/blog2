@@ -8,7 +8,7 @@
 		<title>{{ title }}</title>
 		<link rel="stylesheet" href="/static/css/bootstrap.css">
 		<link rel="stylesheet" type="text/css" href="../static/css/uikit.min.css" />
-		<link rel="stylesheet" type="text/css" href="../static/css/base.css"/>
+		<link rel="stylesheet" type="text/css" href="../static/css/base.css" />
 		<script src="http://code.jquery.com/jquery-3.2.1.min.js" type="text/javascript" charset="utf-8"></script>
 		<script src="/static/js/bootstrap.js"></script>
 		<script src="../static/js/uikit.min.js" type="text/javascript" charset="utf-8"></script>
@@ -17,40 +17,43 @@
 	<body>
 		<div class="uk-container">
 			<div class="uk-navbar">
-				<span class="uk-navbar-brand uk-visible-large">
+				<div>
+					<span class="uk-navbar-brand uk-visible-large">
 					Htt Is Here
 				</span>
-				<a href="/" class="uk-navbar-brand uk-hidden-large"><i class="uk-icon-home"></i></a>
-				<ul id="ul-navbar" class="uk-navbar-nav uk-hidden-small">
-					<li class="articles">
-						<a href="/">文章</a>
-					</li>
-					<li class="tag">
-						<a href="tag">标签</a>
-					</li>
-					<li class="me">
-						<a href="/me">关于我</a>
-					</li>
-				</ul>
-				<ul id="ul-navbar" class="uk-navbar-nav uk-visible-small">
-
-					<li class="uk-parent" data-uk-dropdown>
-						<a href="#0"><i class="uk-icon-navicon"></i></a>
-						<div class="uk-dropdown uk-dropdown-navbar uk-border-rounded">
-							<ul class="uk-nav uk-nav-navbar">
-								<li class="articles">
-									<a href="/">文章</a>
-								</li>
-								<li class="tag">
-									<a href="/tag">标签</a>
-								</li>
-								<li class="me">
-									<a href="/me">关于我</a>
-								</li>
-							</ul>
-						</div>
-					</li>
-				</ul>
+					<a href="/" class="uk-navbar-brand uk-hidden-large"><i class="uk-icon-home"></i></a>
+				</div>
+				<div>
+					<ul id="ul-navbar" class="uk-navbar-nav uk-hidden-small">
+						<li class="articles">
+							<a href="/">文章</a>
+						</li>
+						<li class="tag">
+							<a href="tag">标签</a>
+						</li>
+						<li class="me">
+							<a href="/me">关于我</a>
+						</li>
+					</ul>
+					<ul id="ul-navbar" class="uk-navbar-nav uk-visible-small">
+						<li class="uk-parent" data-uk-dropdown>
+							<a href="#0"><i class="uk-icon-navicon"></i></a>
+							<div class="uk-dropdown uk-dropdown-navbar uk-border-rounded">
+								<ul class="uk-nav uk-nav-navbar">
+									<li class="articles">
+										<a href="/">文章</a>
+									</li>
+									<li class="tag">
+										<a href="/tag">标签</a>
+									</li>
+									<li class="me">
+										<a href="/me">关于我</a>
+									</li>
+								</ul>
+							</div>
+						</li>
+					</ul>
+				</div>
 			</div>
 		</div>
 		{% block main %} {% endblock %}

@@ -7,10 +7,12 @@ let res = {
 }
 module.exports = {
     'GET /': async (ctx, next) => {
-        Contents.find().then(function (cots) {
+        await Contents.find({
+            isDelete: false
+        }).then(function (cots) {
             res.contents = cots;
             console.log(res);
+            ctx.render('index.html',res);
         });
-        ctx.render('index.html',res);
     }
 };

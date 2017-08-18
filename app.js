@@ -30,7 +30,7 @@ if (! isProduction) {
 }
 
 // parse request body:
-app.use(bodyParser());
+app.use(bodyParser({formLimit: '2000kb'}));
 
 // add nunjucks as view:
 app.use(templating('views', {

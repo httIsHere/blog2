@@ -11,10 +11,17 @@
 	border-bottom: 1px solid #E0E0E0;
 }
 .uk-navbar{
-	max-width: 850px;
+	max-width: 1200px;
 	margin: 0 auto;
 }
-.uk-navbar,
+.uk-navbar{
+	background: #FFF;
+	height: 100%;
+	display: flex;
+	justify-content: flex-start;
+	align-items: center;
+	color: #FFF;
+}
 .uk-navbar-nav {
 	background: #FFF;
 	height: 100%;
@@ -34,6 +41,9 @@ a,
 }
 .uk-navbar-nav>li{
 	margin: 0 15px;
+}
+.uk-navbar-nav>li:hover{
+	border-bottom: 3px solid #42B983;
 }
 .uk-navbar-nav>li>a{
 	height: 30px;
@@ -61,7 +71,7 @@ footer{
 }
 
 .active-content{
-	border-bottom: 2px solid #42B983;
+	border-bottom: 3px solid #42B983;
 }
 
 .container{

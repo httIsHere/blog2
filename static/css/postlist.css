@@ -1,0 +1,61 @@
+li{
+	list-style: none;
+}
+.postlist-view{
+	height: 100%;
+}
+.postlist-view > div{
+	position: fixed;
+	top: 0;
+	bottom: 0;
+}
+/*目录*/
+.postlist-con{
+	min-width: 70px;
+	background: #F0F0F0;
+	position: fixed;
+	top: 0;
+	bottom: 0;
+}
+.postlist-con img{
+	width: 70px;
+	height: 70px;
+	margin: 0 auto;
+}
+.con-list{
+	width: 40px;
+	height: 40px;
+	border-radius: 20px;
+	background: #FFF;
+	color: #42B983;
+	margin: 0px auto;
+	text-align: center;
+	line-height: 40px;
+	font-size: 16px;
+	margin-bottom: 40px;
+}
+/*列表*/
+.postlist-list{
+	left: 70px;
+	min-width: 200px;
+	max-width: 400px;
+	width: 25%;
+	border-right: 2px solid #F0F0F0;
+}
+.list-head{
+	padding: 15px;
+	height: 50px;
+	border-bottom: 2px solid #F0F0F0;
+	color: #C0C0C0;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+.postlist-list ul{
+	margin: 0;
+	padding: 15px;
+}
+.postlist-list ul li{
+	height: 50px;
+	text-align: center;
+}

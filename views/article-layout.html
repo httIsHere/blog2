@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>{{title}}</title>
+		<link rel="stylesheet" href="../static/css/bootstrap.css">
+		<link rel="stylesheet" type="text/css" href="../static/css/font-awesome/css/font-awesome.css" />
+		<link rel="stylesheet" type="text/css" href="../static/css/uikit.min.css" />
+		<link rel="stylesheet" type="text/css" href="../static/css/postlist.css" />
+		<script src="http://code.jquery.com/jquery-3.2.1.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../static/js/bootstrap.js"></script>
+		<script src="../static/js/uikit.min.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+	<body>
+		<div class="postlist-view">
+			<div class="postlist-con">
+				<div class="con-head">
+					<img src="../static/images/headimg.jpg"/>
+				</div>
+				<div class="con-list">
+					<i class="fa fa-file-text"></i>
+				</div>
+				<div class="con-list">
+					<i class="fa fa-tag"></i>
+				</div>
+				<div class="con-list">
+					<i class="fa fa-user"></i>
+				</div>
+			</div>
+			<div class="postlist-list">
+				<div class="list-head">
+					<div>
+						<i class="fa fa-list"></i>&nbsp;&nbsp;文章列表
+					</div>
+					<div>
+						<i class="fa fa-plus"></i>
+					</div>
+				</div>
+				<ul>
+					{% for content in contents %}
+					<li>
+						<h4 style="color: #42B983;">{{content.title}}</h4>
+					</li>
+					{% endfor %}
+				</ul>
+			</div>
+			<div class="postlist-panel"></div>
+		</div>
+		<!--{% block main %} {% endblock %}-->
+	</body>
+</html>

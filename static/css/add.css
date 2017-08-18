@@ -6,3 +6,43 @@
 .content-head .form-control{
 	width: 80%;
 }
+/*发布文章页面*/
+.smallTips{
+	height: 30px;
+	background: #E5E5E5;
+	width: 100%;
+	border: 1px solid #CCCCCC;
+	border-bottom: 0;
+	display: flex;
+	justify-content: flex-start;
+	align-items: center;
+	/*padding: 0 20px;*/
+}
+.smallTips div{
+	width: 40px;
+	height: 30px;
+	text-align: center;
+	line-height: 30px;
+}
+.smallTips div i{
+	color: #000000;
+}
+.smallTips div:hover{
+	background: #CCCCCC;
+}
+textarea{
+	resize: none;
+	outline: none;
+}
+#upload input[type=button]{
+	width: 100%;
+}
+#upload #successTip{
+	text-align: center;
+	color: orange;
+	display: none;
+}
+.btn-mybtn{
+	background: #42B983;
+	color: #FFF;
+}
