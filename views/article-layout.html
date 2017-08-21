@@ -1,51 +1,164 @@
 <!DOCTYPE html>
 <html>
+
 	<head>
 		<meta charset="UTF-8">
 		<title>{{title}}</title>
 		<link rel="stylesheet" href="../static/css/bootstrap.css">
+		<link rel="stylesheet" type="text/css" href="../static/css/fileinput.css" />
 		<link rel="stylesheet" type="text/css" href="../static/css/font-awesome/css/font-awesome.css" />
 		<link rel="stylesheet" type="text/css" href="../static/css/uikit.min.css" />
 		<link rel="stylesheet" type="text/css" href="../static/css/postlist.css" />
 		<script src="http://code.jquery.com/jquery-3.2.1.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../static/js/fileinput.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../static/js/zh.js" type="text/javascript" charset="utf-8"></script>
 		<script src="../static/js/bootstrap.js"></script>
 		<script src="../static/js/uikit.min.js" type="text/javascript" charset="utf-8"></script>
 	</head>
+
 	<body>
 		<div class="postlist-view">
 			<div class="postlist-con">
 				<div class="con-head">
-					<img src="../static/images/headimg.jpg"/>
+					<img src="../static/images/headimg.jpg" />
 				</div>
 				<div class="con-list">
-					<i class="fa fa-file-text"></i>
+					<a href="/postedit" style="color: #42B983;">
+						<i class="fa fa-file-text"></i>
+					</a>
 				</div>
 				<div class="con-list">
-					<i class="fa fa-tag"></i>
+					<i class="fa fa-tags"></i>
 				</div>
 				<div class="con-list">
 					<i class="fa fa-user"></i>
 				</div>
+				<div class="con-list">
+					<i class="fa fa-trash"></i>
+				</div>
 			</div>
 			<div class="postlist-list">
-				<div class="list-head">
+				{% block list %}{% endblock %}
+				<!--<div class="list-head">
 					<div>
 						<i class="fa fa-list"></i>&nbsp;&nbsp;文章列表
 					</div>
 					<div>
-						<i class="fa fa-plus"></i>
+						<a href="/postedit" style="color: #C0C0C0;"><i class="fa fa-plus"></i></a>
 					</div>
 				</div>
 				<ul>
 					{% for content in contents %}
-					<li>
-						<h4 style="color: #42B983;">{{content.title}}</h4>
-					</li>
+					<a href="/postedit?contentid={{content.id.toString()}}">
+						<li style="border-bottom: 1px solid #F0F0F0;">
+							<h4 style="color: #42B983; margin: 0;">{{content.title}}</h4>
+							<p style="margin: 0; color: #D5D5D5;">{{content.date}}</p>
+						</li>
+					</a>
 					{% endfor %}
-				</ul>
+				</ul>-->
 			</div>
-			<div class="postlist-panel"></div>
+			<div class="postlist-panel">
+				{% block main %} {% endblock %}
+			</div>
 		</div>
-		<!--{% block main %} {% endblock %}-->
+
+		<!--上传图片-->
+		<div class="modal fade" id="uploadImg" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+						<h4 class="modal-title" id="myModalLabel">插入图片</h4>
+					</div>
+					<div class="modal-body">
+						<div id="myTabContent" class="tab-content">
+							<div class="tab-pane fade in active" id="upload">
+								<br />
+								<input type="file" name="file" id="file" required="required" />
+								<br />
+								<input type="button" name="uploadImage" id="uploadImage" value="上传" class="btn btn-mybtn" />
+								<p>1、图片大小不能超过2M，2、支持格式：.jpg .png .bmp</p>
+								<p>图片链接：<small style="color: #42B983;">(上传成功后请复制当前图片链接进行添加)</small></p>
+								<input type="text" name="online" id="online" class="form-control" />
+								<br />
+								<div id="successTip">
+									<i class="fa fa-check"></i>上传成功
+								</div>
+							</div>
+						</div>
+
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+						<button type="button" class="btn btn-mybtn" id="insertImg" data-dismiss="modal" style="background: #42B983; color: #FFF;">确定</button>
+					</div>
+				</div>
+			</div>
+		</div>
 	</body>
+	<script type="text/javascript">
+		//get Query from url
+		function GetQueryString(name) {
+			var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+			var r = window.location.search.substr(1).match(reg);
+			if(r != null) 
+				return unescape(r[2]);
+			return null;
+		}
+		$('.fa-picture-o').attr('data-toggle', 'modal');
+		$('.fa-picture-o').attr('data-target', '#uploadImg');
+		$("#file").fileinput({
+			language: 'zh',
+			'theme': 'explorer',
+			'uploadUrl': '#',
+			showUpload: false, //是否显示上传按钮
+			showRemove: false,
+			overwriteInitial: false,
+			dropZoneEnabled: false, //是否显示拖拽区域
+			browseClass: "btn btn-default", //按钮样式  
+			allowedFileExtensions: ['jpg', 'png', 'bmp']
+		});
+		//	$("#cover").fileinput({
+		//		language: 'zh',
+		//		'theme': 'explorer',
+		//		'uploadUrl': '#',
+		//		showUpload: false, //是否显示上传按钮
+		//		showRemove: false,
+		//		overwriteInitial: false,
+		//		dropZoneEnabled: false, //是否显示拖拽区域
+		//		browseClass: "btn btn-default", //按钮样式  
+		//		allowedFileExtensions: ['jpg', 'png', 'bmp']
+		//	});
+		$('#uploadImage').click(function() {
+			var img = $('#file').get(0).files[0];
+			//					console.log(img);
+			if(!/image\/\w+/.test(img.type)) {
+				alert("请确保文件为图像类型");
+				return false;
+			}
+			var reader = new FileReader();
+			reader.onload = function(e) {
+				//						console.log(e.target.result);
+				$.ajax({
+					type: "post",
+					url: "/uploadImage",
+					data: {
+						type: 'contentimg',
+						data: e.target.result.toString()
+					},
+					dataType: 'json',
+					success: function(data) {
+						console.log(data);
+						if(data.result == 'ok') {
+							$('#online').val(data.image);
+							$('#successTip').show();
+						}
+					}
+				});
+			}
+			reader.readAsDataURL(img);
+		});
+	</script>
+
 </html>

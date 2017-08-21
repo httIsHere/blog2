@@ -1,7 +1,6 @@
 * {
 	background: none;
 }
-
 .uk-container {
 	margin: 0 auto;
 	max-width: 2400px;
@@ -77,4 +76,10 @@ footer{
 .container{
 	max-width: 850px;
 	margin: 0 auto;
+}
+a,a:hover{
+	text-decoration: none;
+}
+.panel-heading h3 strong:hover{
+	border-bottom: 2px solid #42B983;
 }

@@ -25,6 +25,7 @@ module.exports = new mongoose.Schema({
     },
     // 当前时间
     date: String,
+    lastEditTime: String,
     // 评论
     comments: {
         type: Array,
@@ -35,5 +36,6 @@ module.exports = new mongoose.Schema({
         type: Boolean,
         default: false
     },
+    isPublic: Boolean,
     coverImg: String
 });

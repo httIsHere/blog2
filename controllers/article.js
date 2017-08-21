@@ -1,4 +1,4 @@
-// index:
+// article
 'use strict'
 let Contents = require('../models/Contents');
 let res = {

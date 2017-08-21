@@ -1,6 +1,9 @@
 li{
 	list-style: none;
 }
+a{
+	text-decoration: none;
+}
 .postlist-view{
 	height: 100%;
 }
@@ -34,12 +37,13 @@ li{
 	font-size: 16px;
 	margin-bottom: 40px;
 }
+.con-list-active{
+	border: 1px solid #42B983;
+}
 /*列表*/
 .postlist-list{
 	left: 70px;
-	min-width: 200px;
-	max-width: 400px;
-	width: 25%;
+	min-width: 220px;
 	border-right: 2px solid #F0F0F0;
 }
 .list-head{
@@ -53,9 +57,17 @@ li{
 }
 .postlist-list ul{
 	margin: 0;
-	padding: 15px;
+	padding: 0px;
 }
 .postlist-list ul li{
 	height: 50px;
-	text-align: center;
+	padding: 5px 15px;
+	/*text-align: center;*/
+}
+.postlist-panel{
+	left: 290px;
+	background: #FFF;
+	min-width: 400px;
+	width: 75%;
+	/*overflow-y: scroll;*/
 }

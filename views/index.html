@@ -19,11 +19,14 @@
         <div class="col-md-12">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <h3 class="panel-title"><strong>{{content.title}}</strong></h3>
+                    <a href="/article?contentid={{content._id.toString()}}" style="color: #000000;">
+                    	<h3 class="panel-title"><strong>{{content.title}}</strong></h3>
+                    </a>
+                    <p>{{content.date}}</p>
                 </div>
-                <div class="panel-body">
-                    <p>{{content.description}}</p>
-                    <a target="_blank" href="http://www.liaoxuefeng.com/wiki/001434446689867b27157e896e74d51a89c25cc8b43bdb3000">Read more</a>
+                <div class="panel-body" style="padding-top:0;">
+                    <p class="dot-ellipsis dot-height-70">{{content.content}}</p>
+                    <a target="_blank" href="/article?contentid={{content._id.toString()}}">Read more…</a>
                 </div>
             </div>
         </div>
