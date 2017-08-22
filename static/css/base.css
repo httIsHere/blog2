@@ -1,5 +1,6 @@
 * {
 	background: none;
+	font-size: 16px;
 }
 .uk-container {
 	margin: 0 auto;
@@ -41,7 +42,7 @@ a,
 .uk-navbar-nav>li{
 	margin: 0 15px;
 }
-.uk-navbar-nav>li:hover{
+#ul-navbar>li:hover{
 	border-bottom: 3px solid #42B983;
 }
 .uk-navbar-nav>li>a{
@@ -82,4 +83,14 @@ a,a:hover{
 }
 .panel-heading h3 strong:hover{
 	border-bottom: 2px solid #42B983;
+}
+.foot-view{
+	padding-left: 20px;
+	padding-right: 20px;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+a:hover{
+	color: #42B983;
 }

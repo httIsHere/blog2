@@ -7,12 +7,21 @@
 		<meta name="description" content="">
 		<title>{{ title }}</title>
 		<link rel="stylesheet" href="/static/css/bootstrap.css">
+		<link rel="stylesheet" type="text/css" href="../static/css/default.css" />
+		<!--<link rel="stylesheet" type="text/css" href="../static/css/monokai-sublime.css"/>-->
+		<!--<link href="http://cdn.bootcss.com/highlight.js/8.0/styles/monokai_sublime.min.css" rel="stylesheet">-->
 		<link rel="stylesheet" type="text/css" href="../static/css/uikit.min.css" />
 		<link rel="stylesheet" type="text/css" href="../static/css/base.css" />
 		<script src="http://code.jquery.com/jquery-3.2.1.min.js" type="text/javascript" charset="utf-8"></script>
 		<script src="/static/js/bootstrap.js"></script>
 		<script src="../static/js/uikit.min.js" type="text/javascript" charset="utf-8"></script>
 		<script src="../static/js/jquery.dotdotdot.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../static/js/marked.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../static/js/highlight.js" type="text/javascript" charset="utf-8"></script>
+		<!--<script src="../static/js/javascript.js" type="text/javascript" charset="utf-8"></script>-->
+		<script>
+			hljs.initHighlightingOnLoad();
+		</script>
 	</head>
 
 	<body>
@@ -30,13 +39,16 @@
 							<a href="/">文章</a>
 						</li>
 						<li class="tag">
-							<a href="tag">标签</a>
+							<a href="/tag">标签</a>
+						</li>
+						<li class="comment">
+							<a href="/comment">留言</a>
 						</li>
 						<li class="me">
 							<a href="/me">关于我</a>
 						</li>
 					</ul>
-					<ul id="ul-navbar" class="uk-navbar-nav uk-visible-small">
+					<ul class="uk-navbar-nav uk-visible-small">
 						<li class="uk-parent" data-uk-dropdown>
 							<a href="#0"><i class="uk-icon-navicon"></i></a>
 							<div class="uk-dropdown uk-dropdown-navbar uk-border-rounded">
@@ -46,6 +58,9 @@
 									</li>
 									<li class="tag">
 										<a href="/tag">标签</a>
+									</li>
+									<li class="comment">
+										<a href="/comment">留言</a>
 									</li>
 									<li class="me">
 										<a href="/me">关于我</a>
@@ -59,6 +74,7 @@
 		</div>
 		{% block main %} {% endblock %}
 		<footer style="padding: 20px 0;">
+			{% block foot %} {% endblock %}
 			<div class="container" style="text-align: center;">
 				<p>like me~ folllow me~</p>
 				<a href="https://github.com/httIsHere/blog2">blog</a>

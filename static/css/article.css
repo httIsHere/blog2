@@ -1,0 +1,10 @@
+.content-view{
+	padding: 25px;
+	max-width: 1200px;
+	margin: 0 auto;
+}
+.content-desp{
+	border-left: 3px solid #42B983;
+	padding-left: 20px;
+}
+

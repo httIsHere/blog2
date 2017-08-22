@@ -7,7 +7,7 @@
 		border: 0;
 		background: #FFF;
 	}
-	.panel-body p{
+	.panel-body>p{
 		border-left: 3px solid #42B983;
 		padding-left: 10px;
 	}
@@ -40,5 +40,32 @@
 </div>
 <script type="text/javascript">
 	$('.articles').addClass('active-content');
+//	$('.dot-ellipsis').each(function(i){
+//		var content = $('.dot-ellipsis').eq(i).text();
+////		$('.dot-ellipsis').eq(i).html(marked(content));
+//	})
 </script>
+{% endblock %}
+{% block foot %}
+<div class="foot-view">
+	<div>
+	{% if page > 1 %}
+		<<
+		<a href="/?page={{page-1}}">
+			<strong>Pre Page</strong>
+		</a>
+	{% endif %}
+	</div>
+	<div>
+	{% if page < pages %}
+		<a href="/?page={{page+1}}">
+			<strong>Next Page</strong>
+		</a>
+		>>
+	{% endif %}
+	</div>
+</div>
+<div style="text-align: center;color: #42B983;">
+	{{page}} / {{pages}}
+</div>
 {% endblock %}

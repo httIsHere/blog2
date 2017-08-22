@@ -59,7 +59,8 @@ let postAddPage = async (ctx, next) => {
         content: data.content,
         date: new Date().toLocaleString(),
         isPublic: true,
-        lastEditTime: new Date().toLocaleString()
+        lastEditTime: new Date().toLocaleString(),
+        description: data.content.substring(0, 100)
     }).save().then(function () {
         ctx.redirect('/postedit');
     });
@@ -159,6 +160,7 @@ let postDraft = async (ctx, next) => {
             content.content = data.content;
             content.lastEditTime = new Date().toLocaleString();
             content.isPublic = true;
+            content.description = data.content.substring(0, 100);
             content.save();
             ctx.body = {
                 result: 'save success'

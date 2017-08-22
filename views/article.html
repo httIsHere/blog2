@@ -1,3 +1,61 @@
-{% extends "article-layout.html" %}{% block main %}
-
-{% endblock %} 
+{% extends "base.html" %}{% block main %}
+<link rel="stylesheet" type="text/css" href="../static/css/article.css"/>
+<div class="content-view">
+	<div class="content-head">
+		<h2>{{content.title}}</h2>
+		<p style="font-size: 14px; color: #888888;">{{content.date}}</p>
+		<!--<p class="content-desp">{{content.description}}</p>-->
+	</div>
+	<div class="content-main"></div>
+</div>
+<script type="text/javascript">
+	$('.articles').addClass('active-content');
+	$.ajax({
+		type: "post",
+		url: "/article",
+		async: true,
+		data: {
+			contentid: "{{content._id.toString()}}"
+		},
+		success: function(data) {
+			var article = eval(data);
+			hljs.initHighlightingOnLoad();
+			marked.setOptions({
+				renderer: new marked.Renderer(),
+				gfm: true,
+				tables: true,
+				breaks: true,
+				pedantic: true,
+				sanitize: true,
+				smartLists: true,
+				smartypants: true,
+				highlight: function(code) {
+					return hljs.highlightAuto(code).value;
+				}
+			});
+			$('pre code').addClass('javascript');
+			$('.content-main').html(marked(article.data.content));
+		}
+	});
+</script>
+{% endblock %}
+{% block foot %}
+<div class="foot-view">
+	<div>
+	{% if index > 0%}
+		<<
+		<a href="/article?contentid={{contents[index-1]._id.toString()}}">
+			<strong>{{contents[index-1].title}}</strong>
+		</a>
+	{% endif %}
+	</div>
+	<div>
+	{% if index < contents.length - 1%}
+		<a href="/article?contentid={{contents[index+1]._id.toString()}}">
+			<strong>{{contents[index+1].title}}</strong>
+		</a>
+		>>
+	{% endif %}
+	</div>
+</div>
+{% endblock %}
