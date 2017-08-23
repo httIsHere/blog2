@@ -1,9 +1,118 @@
 {% extends "base.html" %}{% block main %}
-<link rel="stylesheet" type="text/css" href="../static/css/comment.css"/>
-<div class="comment-view" style="padding: 20px;">
-	
+<link rel="stylesheet" type="text/css" href="../static/css/comment.css" />
+<div class="comment-view">
+	<ul class="comment-list">
+		{% for comment in comments %}
+		<li>
+			<div class="comment-info">
+				<span>{{comment.user}}</span>
+				<span style="font-size: 14px;">{{comment.date}}</span>
+			</div>
+			<div class="comment-detail">{{comment.comment}}</div>
+			<div class="comment-reply">
+				<span class="myreply" style="color: #42B983;"><i class="fa fa-ellipsis-h"></i></span>
+				<a id="{{comment._id.toString()}}">reply</a>
+			</div>
+			<div class="comment-replyList" style="display: none;">
+				<ul class="reply-list" style="padding: 0;">
+				{% for reply in comment.reply %}
+					<li>
+						{{reply.content}}
+						<hr style="margin-top: 0;" />
+					</li>
+				{% endfor %}
+				</ul>
+			</div>
+			<div class="comment-replyInput" style="display: none;">
+				<input class="form-control reply" type="text" name="reply" placeholder="reply..." />
+				<input class="btn btn-primary replyBtn" type="button" value="reply" style="background: #42B983;border: none;width: 100%;margin-top: 5px;" />
+			</div>
+		</li>
+		{% endfor %}
+		<li>
+			<div class="comment-add">
+				<img src="../static/images/plus.png" />
+			</div>
+		</li>
+	</ul>
 </div>
+<form method="post" onsubmit="return checkInfo()">
+	<div class="add-view" style="display: none;">
+		<div class="add-comment">
+			<div class="add-close" style="text-align: right;margin-bottom: 10px;">
+				<i class="fa fa-close"></i>
+			</div>
+			<input class="form-control" type="text" name="name" id="name" placeholder="Your name" />
+			<input class="form-control" type="email" name="email" id="email" placeholder="Your email(not public)" />
+			<textarea class="form-control" name="comment" id="comment" rows="10" placeholder="Your opinion"></textarea>
+			<input class="form-control" type="text" name="url" id="url" placeholder="Your website" />
+			<input class="btn btn-primary" type="submit" value="submit" style="background: #42B983;border: none;" />
+		</div>
+	</div>
+</form>
 <script type="text/javascript">
 	$('.comment').addClass('active-content');
+	$('.comment-add').click(function() {
+		// show add input
+		console.log('add comment');
+		$('.add-view').fadeToggle();
+	});
+	$('.add-close').click(function() {
+		// hide add input
+		$('.add-view').fadeToggle();
+	});
+
+	function checkInfo() {
+		var name = $('#name').val();
+		var email = $('#email').val();
+		var comment = $('#comment').val();
+		if(name == '' || email == '' || comment == '') {
+			alert('信息不完整');
+			return false;
+		}
+		if(name.trim().length == 0 || email.trim().length == 0 || comment.trim().length == 0) {
+			alert('不能全部为空格');
+			return false;
+		}
+		id = '';
+		return true;
+	}
+
+	//reply
+	$('.comment-reply a').click(function() {
+		var id = $(this).attr('id');
+		var index = $(this).index('.comment-reply a');
+		console.log(id + " " + index);
+		$('.comment-replyList').eq(index).slideUp();
+		$('.comment-replyInput').eq(index).slideToggle();
+		$('.replyBtn').eq(index).click(function() {
+			console.log(index);
+			var replyComment = $('.reply').eq(index).val();
+			console.log(replyComment);
+			$.ajax({
+				type: "post",
+				url: "/reply",
+				async: true,
+				data: {
+					id: id,
+					reply: replyComment
+				},
+				success: function(data) {
+					console.log(data);
+					var res = eval(data);
+					if(data.result == 'ok'){
+						console.log('success');
+						var li = `<li>${replyComment}</li>`;
+						$('.reply-list').eq(index).append(li);
+					}
+				}
+			});
+		});
+	});
+	$('.myreply').click(function() {
+		var index = $(this).index('.myreply');
+		$('.comment-replyList').eq(index).slideToggle();
+		$('.comment-replyInput').eq(index).slideUp();
+	})
 </script>
 {% endblock %}

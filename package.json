@@ -4,8 +4,9 @@
     "description": "koa 2 example with nunjucks as view",
     "main": "app.js",
     "scripts": {
-        "start": "node --use_strict app.js"
+        "start": "pm2 --use_strict app.js"
     },
+    "pm2": "pm2 start processes.json",
     "keywords": [
         "koa",
         "async",
@@ -15,7 +16,7 @@
     "license": "Apache-2.0",
     "repository": {
         "type": "git",
-        "url": "https://github.com/michaelliao/learn-javascript.git"
+        "url": "https://github.com/httIsHere/blog2"
     },
     "dependencies": {
         "koa": "2.0.0",
