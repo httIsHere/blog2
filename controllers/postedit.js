@@ -2,15 +2,16 @@
 'use strict'
 let fs = require('fs');
 let Content = require('../models/Contents');
+let Tag = require('../models/Tags');
 
 // show page
 let getAddPage = async (ctx, next) => {
     let data = {
         title: 'My Articles',
         contents: null,
-        content: null
-    }
-    console.log(data);
+        content: null,
+        tags: null
+    };
     let id = ctx.query.contentid || '';
     console.log(`id: ${id}`);
     if (id != '') {
@@ -27,6 +28,9 @@ let getAddPage = async (ctx, next) => {
         }).then(function (contents) {
             console.log(contents);
             data.contents = contents;
+            return Tag.find();
+        }).then(function(tags){
+            data.tags = tags;
             console.log(data);
             ctx.render('add.html', data);
         });
@@ -39,6 +43,9 @@ let getAddPage = async (ctx, next) => {
         }).then(function (contents) {
             console.log(contents);
             data.contents = contents;
+            return Tag.find();
+        }).then(function(tags){
+            data.tags = tags;
             console.log(data);
             ctx.render('add.html', data);
         });
@@ -60,8 +67,16 @@ let postAddPage = async (ctx, next) => {
         date: new Date().toLocaleString(),
         isPublic: true,
         lastEditTime: new Date().toLocaleString(),
-        description: data.content.substring(0, 100)
-    }).save().then(function () {
+        description: data.content.substring(0, 100),
+        tags: data.tags
+    }).save().then(function (newContent) {
+        data.tags.forEach(function(element) {
+            new Tag({
+                tag: element,
+                content: newContent._id.toString(),
+                title: newContent.title
+            }).save();
+        }, this);
         ctx.redirect('/postedit');
     });
 };
@@ -100,7 +115,8 @@ let saveDraft = async (ctx, next) => {
         content: data.content,
         isPublic: false,
         date: new Date().toLocaleString(),
-        lastEditTime: new Date().toLocaleString()
+        lastEditTime: new Date().toLocaleString(),
+        tags: data.tags
     }).save().then(function (newContent) {
         ctx.body = {
             result: '保存成功',
@@ -130,6 +146,7 @@ let deleteArticle = async (ctx, next) => {
 // save article
 let saveArticle = async (ctx, next) => {
     let data = ctx.request.body;
+    console.log(data);
     let id = ctx.request.body.contentid || '';
     if (id != '') {
         await Content.findOne({
@@ -139,6 +156,7 @@ let saveArticle = async (ctx, next) => {
             content.title = data.title;
             content.content = data.content;
             content.lastEditTime = new Date().toLocaleString();
+            content.tags = data.tags;
             content.save();
             ctx.body = {
                 result: 'save success'
@@ -161,6 +179,7 @@ let postDraft = async (ctx, next) => {
             content.lastEditTime = new Date().toLocaleString();
             content.isPublic = true;
             content.description = data.content.substring(0, 100);
+            content.tags = data.tags;
             content.save();
             ctx.body = {
                 result: 'save success'

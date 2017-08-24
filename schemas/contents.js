@@ -37,5 +37,9 @@ module.exports = new mongoose.Schema({
         default: false
     },
     isPublic: Boolean,
-    coverImg: String
+    coverImg: String,
+    tags: {
+        type: Array,
+        default: []
+    }
 });

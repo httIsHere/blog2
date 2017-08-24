@@ -7,11 +7,11 @@
 		<a href="/postedit" style="color: #C0C0C0;"><i class="fa fa-plus"></i></a>
 	</div>
 </div>
-<ul>
+<ul style="width: 100%;">
 	{% for content in contents %}
 	<a href="/postedit?contentid={{content.id.toString()}}">
-		<li style="border-bottom: 1px solid #F0F0F0; overflow-x: hidden;" id="{{content._id.toString()}}">
-			<h4 style="color: #42B983; margin: 0;">
+		<li style="border-bottom: 1px solid #F0F0F0;" id="{{content._id.toString()}}">
+			<h4 style="color: #42B983; margin: 0;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;">
 				{% if content.isPublic == false %}
 				<small style="color: red;">[草稿]</small>
 				{% endif %}
@@ -43,19 +43,22 @@
 			<div class="content-tag">
 				<div class="myTags">
 					<i class="fa fa-tags"></i>
-					<a href="" style="color: #42B983;"><i class="fa fa-plus"></i></a>
+					<a data-toggle="modal" data-target="#addTag" style="color: #42B983; margin-right: 10px;"><i class="fa fa-plus"></i></a>
+				</div>
+				<div class="content-tags" style="margin-top: 0;">
+					{% for tag in content.tags %}
+					<div class="mytag" style="margin-bottom: 0;">
+						<span>{{tag}}</span>
+					</div>
+					{% endfor %}
 				</div>
 				<div class="submitBtn">
 					{% if content %}
 					<input id="deleteArticle" class="btn btn-default" style="width: 82px;" value="删除文章">
-					<input id="saveArticle" class="btn" style="background: #42B983; color: #FFF;width: 82px;" value="保存修改"/>
-					{% if content.isPublic != true %}
-					<input id="postDraft" class="btn btn-default" style="background: #42B983; color: #FFF;width: 82px;" value="发布文章" />
-					{% endif %} 
-					{% else %}
+					<input id="saveArticle" class="btn" style="background: #42B983; color: #FFF;width: 82px;" value="保存修改" /> {% if content.isPublic != true %}
+					<input id="postDraft" class="btn btn-default" style="background: #42B983; color: #FFF;width: 82px;" value="发布文章" /> {% endif %} {% else %}
 					<input id="saveDraft" class="btn btn-default" style="width: 82px;" value="保存草稿">
-					<button type="submit" class="btn" style="background: #42B983; color: #FFF;">发布文章</button> 
-					{% endif %}
+					<button type="submit" class="btn" style="background: #42B983; color: #FFF;">发布文章</button> {% endif %}
 				</div>
 			</div>
 			<textarea id="article-content" name="content">{{content.content}}</textarea>
@@ -65,13 +68,42 @@
 	</div>
 </div>
 </div>
+<!-- 模态框（Modal） -->
+<div class="modal fade" id="addTag" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				<h4 class="modal-title" id="myModalLabel">Add Tags</h4>
+			</div>
+			<div class="modal-body">
+				<input class="form-control" type="text" name="tag" id="tag" placeholder="add tags" onkeypress="addTag()" />
+				<div class="showTags">
+					{% for tag in content.tags %}
+					<div class="mytag">
+						<span>{{tag}}</span> &nbsp;
+						<i class="fa fa-close"></i>
+					</div>
+					{% endfor %}
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+				<button type="button" class="btn btn-mybtn" id="getTags" data-dismiss="modal">确定</button>
+			</div>
+		</div>
+		<!-- /.modal-content -->
+	</div>
+	<!-- /.modal -->
+</div>
 <script type="text/javascript">
+	var mytags = [];
 	$('.con-list').eq(0).addClass('con-list-active');
-	$(function(){
+	$(function() {
 		getActive();
 	})
-//	getActive();
-	function getActive(){
+	//	getActive();
+	function getActive() {
 		var contentid = GetQueryString('contentid');
 		console.log(contentid);
 		$(`#${contentid}`).addClass('active-content');
@@ -92,7 +124,8 @@
 			url: "/saveDraft",
 			data: {
 				title: title,
-				content: content
+				content: content,
+				tags: mytags
 			},
 			dataType: 'json',
 			success: function(data) {
@@ -128,8 +161,9 @@
 			url: "/saveArticle",
 			data: {
 				contentid: id,
-				title:$('input[name=title]').val(),
-				content:simplemde.value()
+				title: $('input[name=title]').val(),
+				content: simplemde.value(),
+				tags: mytags
 			},
 			dataType: 'json',
 			success: function(data) {
@@ -147,8 +181,9 @@
 			url: "/postDraft",
 			data: {
 				contentid: id,
-				title:$('input[name=title]').val(),
-				content:simplemde.value()
+				title: $('input[name=title]').val(),
+				content: simplemde.value(),
+				tags: mytags
 			},
 			dataType: 'json',
 			success: function(data) {
@@ -157,8 +192,38 @@
 			}
 		});
 	});
-	
-	
+
+	// add tag
+	function addTag() {
+		if(event.keyCode == 13) {
+			var tag = $('#tag').val();
+			//			console.log(tag);
+			var taglist = `<div class="mytag"><span>${tag}</span>&nbsp;<i class="fa fa-close"></i></div>`;
+			$('.showTags').append(taglist);
+			$('#tag').val('');
+			// remove tag
+			$('.mytag i').on('click', function() {
+				$(this).parent().remove();
+			});
+		}
+	}
+	// remove tag
+	$('.mytag i').click(function() {
+		$(this).parent().remove();
+	});
+	// get tags
+	$('#getTags').click(function() {
+		mytags = [];
+		var t = ``;
+		$('.showTags span').each(function(i) {
+			var tt = $('.showTags span').eq(i).text();
+			mytags.push(tt);
+			t += `<div class="mytag" style="margin-bottom: 0;"><span>${tt}</span></div><input type="checkbox" name="tags" id="tags" value="${tt}" hidden checked/>`;
+		});
+		$('.content-tags').html(t);
+		console.log(mytags);
+	});
+
 	//	$('#coverBtn').click(function() {
 	//		var img = $('#cover').get(0).files[0];
 	//		if(!/image\/\w+/.test(img.type)) {

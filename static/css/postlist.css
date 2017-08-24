@@ -43,7 +43,7 @@ a{
 /*列表*/
 .postlist-list{
 	left: 70px;
-	min-width: 220px;
+	width: 220px;
 	border-right: 2px solid #F0F0F0;
 }
 .list-head{
@@ -54,6 +54,11 @@ a{
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
+}
+.list-head h4{
+	/*white-space: nowrap;*/
+	overflow: hidden;
+	/*text-overflow: ellipsis;*/
 }
 .postlist-list ul{
 	margin: 0;
@@ -68,6 +73,7 @@ a{
 	left: 290px;
 	background: #FFF;
 	min-width: 400px;
+	max-width: 1200px;
 	width: 75%;
 	/*overflow-y: scroll;*/
 }
