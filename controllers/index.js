@@ -11,7 +11,9 @@ module.exports = {
             limit: 5,
             pages: 0
         };
-        await Contents.count().then(function (cnt) {
+        await Contents.count({
+            isDelete: false
+        }).then(function (cnt) {
             res.count = cnt;
             res.pages = Math.ceil(res.count / res.limit);
             res.page = Math.min(res.page, res.pages);

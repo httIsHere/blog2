@@ -132,6 +132,7 @@
 				console.log(data);
 				var res = eval(data);
 				location.href = `/postedit?contentid=${res.newContent._id.toString()}`;
+//				swal('',res.result, 'success');
 			}
 		});
 	});
@@ -167,8 +168,9 @@
 			},
 			dataType: 'json',
 			success: function(data) {
-				console.log(data);
-				location.href = `/postedit?contentid=${id}`;
+				var data = eval(data);
+//				location.href = `/postedit?contentid=${id}`;
+				swal('',data.result, 'success');
 			}
 		});
 	});
@@ -187,8 +189,9 @@
 			},
 			dataType: 'json',
 			success: function(data) {
-				console.log(data);
-				location.href = `/postedit?contentid=${id}`;
+				var data = eval(data);
+//				location.href = `/postedit?contentid=${id}`;
+				swal('',data.result, 'success');
 			}
 		});
 	});

@@ -29,7 +29,7 @@ let getAddPage = async (ctx, next) => {
             console.log(contents);
             data.contents = contents;
             return Tag.find();
-        }).then(function(tags){
+        }).then(function (tags) {
             data.tags = tags;
             console.log(data);
             ctx.render('add.html', data);
@@ -38,13 +38,13 @@ let getAddPage = async (ctx, next) => {
     else {
         await Content.find({
             isDelete: false
-        }).sort({ 
-            lastEditTime: -1 
+        }).sort({
+            lastEditTime: -1
         }).then(function (contents) {
             console.log(contents);
             data.contents = contents;
             return Tag.find();
-        }).then(function(tags){
+        }).then(function (tags) {
             data.tags = tags;
             console.log(data);
             ctx.render('add.html', data);
@@ -70,13 +70,15 @@ let postAddPage = async (ctx, next) => {
         description: data.content.substring(0, 100),
         tags: data.tags
     }).save().then(function (newContent) {
-        data.tags.forEach(function(element) {
-            new Tag({
-                tag: element,
-                content: newContent._id.toString(),
-                title: newContent.title
-            }).save();
-        }, this);
+        if (data.tags)
+            data.tags.forEach(function (element) {
+                new Tag({
+                    tag: element,
+                    content: newContent._id.toString(),
+                    title: newContent.title,
+                    isDelete: 0
+                }).save();
+            }, this);
         ctx.redirect('/postedit');
     });
 };
@@ -118,8 +120,17 @@ let saveDraft = async (ctx, next) => {
         lastEditTime: new Date().toLocaleString(),
         tags: data.tags
     }).save().then(function (newContent) {
+        if (data.tags)
+            data.tags.forEach(function (element) {
+                new Tag({
+                    tag: element,
+                    content: newContent._id.toString(),
+                    title: newContent.title,
+                    isDelete: 0
+                }).save();
+            }, this);
         ctx.body = {
-            result: '保存成功',
+            result: 'save success',
             newContent: newContent
         }
     });
@@ -136,6 +147,15 @@ let deleteArticle = async (ctx, next) => {
             content.isDelete = true;
             content.lastEditTime = new Date().toLocaleString();
             content.save();
+            return Tag.find({
+                content: id
+            });
+        }).then(function(tagContent){
+            console.log(tagContent);
+            tagContent.forEach(function(element) {
+                element.isDelete = -1;
+                element.save();
+            }, this);
             ctx.body = {
                 result: 'delete success'
             };
@@ -158,6 +178,15 @@ let saveArticle = async (ctx, next) => {
             content.lastEditTime = new Date().toLocaleString();
             content.tags = data.tags;
             content.save();
+            if (data.tags)
+                data.tags.forEach(function (element) {
+                    new Tag({
+                        tag: element,
+                        content: id,
+                        title: data.title,
+                        isDelete: false
+                    }).save();
+                }, this);
             ctx.body = {
                 result: 'save success'
             };
@@ -181,8 +210,17 @@ let postDraft = async (ctx, next) => {
             content.description = data.content.substring(0, 100);
             content.tags = data.tags;
             content.save();
+            if (data.tags)
+                data.tags.forEach(function (element) {
+                    new Tag({
+                        tag: element,
+                        content: id,
+                        title: data.title,
+                        isDelete: 0
+                    }).save();
+                }, this);
             ctx.body = {
-                result: 'save success'
+                result: 'post success'
             };
         });
     }

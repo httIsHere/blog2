@@ -5,5 +5,6 @@ var BSON = require('bson').BSONPure
 module.exports = new mongoose.Schema({
     tag: String,
     content: String,
-    title: String
+    title: String,
+    isDelete: Number
 });

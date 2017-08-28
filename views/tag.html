@@ -1,6 +1,29 @@
 {% extends "base.html" %}{% block main %}
-<div class="tag-view" style="padding: 20px;width: 1200px;margin: 0 auto;">
-	
+<style type="text/css">
+
+</style>
+<div class="tag-view" style="padding: 20px;width: 850px;margin: 0 auto;">
+	<div>
+		<h2>All tags</h2>
+		<div style="display: flex;justify-content: space-between;align-items: center;">
+			{% for tag in tagArray %}
+			<div># 
+				<a href="#{{tag}}" style="color: #42B983; font-size: 20px;">{{tag}}</a>
+			</div>
+			{% endfor %}
+		</div>
+		<hr />
+	</div>
+	{% for tag in tagArray %}
+	<div class="tagname" id="{{tag}}">
+		<h2><strong style="color: #42B983;"># </strong>{{tag}}</h2></div>
+	{% for content in tagContent[tag] %}
+	<ul>
+		<li>
+			<a href="/article?contentid={{content._id.content}}">{{content._id.title}}</a>
+		</li>
+	</ul>
+	{% endfor %} {% endfor %}
 </div>
 <script type="text/javascript">
 	$('.tag').addClass('active-content');
